@@ -19,9 +19,7 @@ async function getData(url) {
   }
 }
 
-//getData(apiEndpoint);
-
-// Gets all categories in DND
+// Gets all categories from 1st frontpage in DND API and puts it in a array and returns it
 async function getCategories(address) {
   const data = await getData(address);
   const container4Categories = [];
