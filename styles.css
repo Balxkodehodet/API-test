@@ -31,13 +31,15 @@ body {
 .txtContent {
   text-align: center;
 }
-img {
-  height: auto;
-  width: 40%;
-}
 header {
   display: flex;
   flex-direction: row;
-  height: 20%;
+  height: 40%;
   width: 80%;
+  background-image: url("./images/dragon.jpg");
+  background-size: contain;
+  background-repeat: no-repeat; /* Prevents tiling */
+  background-position: center; /* Centers the image */
+  width: 100%; /* Make sure the container has width */
+  height: 100vh;
 }

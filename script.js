@@ -59,7 +59,9 @@ async function getInformationFromCat(urlAddress) {
           entryLink.textContent = entry.name || entry.index;
           txtContent.appendChild(entryLink);
           txtContent.appendChild(document.createElement("br"));
+          //
           // Another eventlistener deeper into the hierarchy:
+          //
           entryLink.addEventListener("click", async () => {
             try {
               const categoryRes = await fetch(webPage + entry.url); // Use url value from collected entry data
@@ -72,7 +74,8 @@ async function getInformationFromCat(urlAddress) {
               desc.classList.add("linkStyle");
               descHeading.classList.add("linkStyle");
               desc.id = categoryData.name; // Add unique ID to each entry
-              descHeading.textContent = categoryData.full_name;
+              descHeading.textContent =
+                categoryData.full_name || categoryData.index;
               desc.textContent = categoryData.desc;
               txtContent.append(descHeading, desc);
               txtContent.appendChild(document.createElement("br"));
