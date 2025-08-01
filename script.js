@@ -62,7 +62,7 @@ async function getCategories(address) {
   return container4Categories;
 }
 // Function to extract information about the category after you have clicked one of the categories
-async function getInformationFromCat(urlAdress) {
+async function getInformationFromCat(urlAddress) {
   const getInfoFromCat = await getCategories(urlAddress);
   getInfoFromCat.forEach((cat) => {
     console.log(
@@ -70,8 +70,11 @@ async function getInformationFromCat(urlAdress) {
     );
   });
 }
-console.log("This is categories: ", getCategories(apiEndpoint));
-console.log("This is getInformationFromCat: ", getInformationFromCat());
+//console.log("This is categories: ", getCategories(apiEndpoint));
+console.log(
+  "This is getInformationFromCat: ",
+  getInformationFromCat(apiEndpoint)
+);
 // Function to clear elements
 function clearContent(element) {
   while (element.firstChild) {
