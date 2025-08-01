@@ -33,31 +33,6 @@ async function getCategories(address) {
     });
     console.log(element);
     console.log(webPage + data[element]);
-    const categoryLink = document.createElement("a");
-    categoryLink.classList.add("linkStyle");
-    categoryLink.textContent = element + "\n";
-    txtContent.append(categoryLink);
-    categoryLink.addEventListener("click", async () => {
-      try {
-        const categoryRes = await fetch(webPage + data[element]); // Use value from original data
-        const categoryData = await categoryRes.json();
-
-        clearContent(txtContent); // Clear old content
-
-        categoryData.results.forEach((entry) => {
-          const entryLink = document.createElement("a");
-          entryLink.classList.add("linkStyle");
-          entryLink.id = entry.name; // Add unique ID to each entry
-          entryLink.href = webPage + entry.url;
-          entryLink.textContent = entry.name || entry.index;
-          entryLink.target = "_blank";
-          txtContent.appendChild(entryLink);
-          txtContent.appendChild(document.createElement("br"));
-        });
-      } catch (error) {
-        console.log(`Failed to fetch ${category}:`, error);
-      }
-    });
   }
   return container4Categories;
 }
@@ -68,6 +43,52 @@ async function getInformationFromCat(urlAddress) {
     console.log(
       "This is category name: " + cat.name + " This is category URL: " + cat.url
     );
+    const categoryLink = document.createElement("a");
+    categoryLink.classList.add("linkStyle");
+    categoryLink.textContent = cat.name + "\n";
+    txtContent.append(categoryLink);
+    categoryLink.addEventListener("click", async () => {
+      try {
+        const categoryRes = await fetch(cat.url); // Use value from original data
+        const categoryData = await categoryRes.json();
+
+        clearContent(txtContent); // Clear old content
+
+        categoryData.results.forEach((entry) => {
+          const entryLink = document.createElement("a");
+          entryLink.classList.add("linkStyle");
+          entryLink.id = entry.name; // Add unique ID to each entry
+          entryLink.textContent = entry.name || entry.index;
+          txtContent.appendChild(entryLink);
+          txtContent.appendChild(document.createElement("br"));
+          // Another eventlistener deeper into the hierarchy:
+          entryLink.addEventListener("click", async () => {
+            try {
+              const categoryRes = await fetch(webPage + entry.url); // Use url value from collected entry data
+              const categoryData = await categoryRes.json();
+              console.log("du klikket på: ", webPage + entry.url);
+              console.log(categoryData);
+              clearContent(txtContent); // Clear old content
+              const desc = document.createElement("p");
+              const descHeading = document.createElement("h2");
+              desc.classList.add("linkStyle");
+              descHeading.classList.add("linkStyle");
+              desc.id = categoryData.name; // Add unique ID to each entry
+              descHeading.textContent = categoryData.full_name;
+              desc.textContent = categoryData.desc;
+              txtContent.append(descHeading, desc);
+              txtContent.appendChild(document.createElement("br"));
+              //
+              // });
+            } catch (error) {
+              console.log(`Failed to fetch ${cat.url}:`, error);
+            }
+          });
+        });
+      } catch (error) {
+        console.log(`Failed to fetch ${cat.url}:`, error);
+      }
+    });
   });
 }
 //console.log("This is categories: ", getCategories(apiEndpoint));
