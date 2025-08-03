@@ -92,16 +92,18 @@ async function getInformationFromCat(urlAddress) {
               // Run a for loop to loop through each property the property has
               for (let prop in categoryData) {
                 const value = categoryData[prop];
-                if (typeof value === "object") {
-                  console.log("This is a object");
-                  continue;
-                }
                 const propData = document.createElement("strong");
                 propData.classList.add("linkStyle");
                 propData.id = prop;
-                propData.textContent =
-                  prop.toUpperCase() + " : " + categoryData[prop];
-                txtContent.append(propData);
+                // Check if value is object (We will end the information if its an object)
+                if (typeof value === "object") {
+                  //console.log("This is a object");
+                  continue;
+                } else {
+                  propData.textContent =
+                    prop.toUpperCase() + " : " + categoryData[prop];
+                  txtContent.append(propData);
+                }
               }
             } catch (error) {
               console.log(`Failed to fetch ${cat.url}:`, error);
