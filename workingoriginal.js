@@ -69,20 +69,18 @@ async function getInformationFromCat(urlAddress) {
               console.log("du klikket på: ", webPage + entry.url);
               console.log(categoryData);
               clearContent(txtContent); // Clear old content
-
               const desc = document.createElement("p");
               const descHeading = document.createElement("h2");
-              const unitImg = document.createElement("img");
               desc.classList.add("linkStyle");
               descHeading.classList.add("linkStyle");
               desc.id = categoryData.name; // Add unique ID to each entry
               descHeading.textContent =
-                categoryData.full_name || categoryData.index; // Add full name to heading
-              desc.textContent = categoryData.desc; // add description to textcontent
-              unitImg.src = webPage + categoryData.image;
-              console.log(unitImg.src);
-              txtContent.append(unitImg, descHeading, desc);
+                categoryData.full_name || categoryData.index;
+              desc.textContent = categoryData.desc;
+              txtContent.append(descHeading, desc);
               txtContent.appendChild(document.createElement("br"));
+              //
+              // });
             } catch (error) {
               console.log(`Failed to fetch ${cat.url}:`, error);
             }
