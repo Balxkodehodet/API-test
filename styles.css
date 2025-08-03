@@ -20,26 +20,31 @@ body {
   align-items: center;
   padding: 10px;
   margin-top: 5px;
-  background-color: rgb(255, 119, 0);
-  color: white;
+  margin-right: 5px;
+  background-color: rgb(200, 97, 7);
+  color: rgb(240, 238, 238);
 }
 .buttons {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.txtContent {
+#txt-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  max-width: 80%;
   text-align: center;
+  flex-wrap: wrap;
 }
 header {
   display: flex;
   flex-direction: row;
   height: 40%;
   width: 80%;
-  background-image: url("./images/dragon.jpg");
-  background-size: contain;
-  background-repeat: no-repeat; /* Prevents tiling */
-  background-position: center; /* Centers the image */
-  width: 100%; /* Make sure the container has width */
-  height: 100vh;
+}
+img {
+  width: 80%;
+  height: auto;
 }

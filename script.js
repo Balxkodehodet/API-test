@@ -41,7 +41,7 @@ async function getInformationFromCat(urlAddress) {
     console.log(
       "This is category name: " + cat.name + " This is category URL: " + cat.url
     );
-    const categoryLink = document.createElement("a");
+    const categoryLink = document.createElement("li");
     categoryLink.classList.add("linkStyle");
     categoryLink.textContent = cat.name + "\n";
     txtContent.append(categoryLink);
@@ -53,7 +53,7 @@ async function getInformationFromCat(urlAddress) {
         clearContent(txtContent); // Clear old content
 
         categoryData.results.forEach((entry) => {
-          const entryLink = document.createElement("a");
+          const entryLink = document.createElement("li");
           entryLink.classList.add("linkStyle");
           entryLink.id = entry.name; // Add unique ID to each entry
           entryLink.textContent = entry.name || entry.index;
@@ -72,16 +72,20 @@ async function getInformationFromCat(urlAddress) {
 
               const desc = document.createElement("p");
               const descHeading = document.createElement("h2");
-              const unitImg = document.createElement("img");
+              if (categoryData.image) {
+                const unitImg = document.createElement("img");
+                unitImg.src = webPage + categoryData.image; // add source of image as webPage + the url of image
+                txtContent.append(unitImg);
+              } else {
+                console.log("No Image was found");
+              }
               desc.classList.add("linkStyle");
               descHeading.classList.add("linkStyle");
               desc.id = categoryData.name; // Add unique ID to each entry
               descHeading.textContent =
                 categoryData.full_name || categoryData.index; // Add full name to heading
               desc.textContent = categoryData.desc; // add description to textcontent
-              unitImg.src = webPage + categoryData.image;
-              console.log(unitImg.src);
-              txtContent.append(unitImg, descHeading, desc);
+              txtContent.append(descHeading, desc);
               txtContent.appendChild(document.createElement("br"));
             } catch (error) {
               console.log(`Failed to fetch ${cat.url}:`, error);
