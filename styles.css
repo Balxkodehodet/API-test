@@ -34,7 +34,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: row;
-  max-width: 80%;
+  max-width: 90%;
   text-align: center;
   flex-wrap: wrap;
 }
@@ -45,6 +45,6 @@ header {
   width: 80%;
 }
 img {
-  width: 80%;
-  height: auto;
+  aspect-ratio: 1/1;
+  max-width: 95%;
 }

@@ -29,8 +29,8 @@ async function getCategories(address) {
       name: element,
       url: webPage + data[element],
     });
-    console.log(element);
-    console.log(webPage + data[element]);
+    //console.log(element);
+    //console.log(webPage + data[element]);
   }
   return container4Categories;
 }
@@ -38,9 +38,9 @@ async function getCategories(address) {
 async function getInformationFromCat(urlAddress) {
   const getInfoFromCat = await getCategories(urlAddress);
   getInfoFromCat.forEach((cat) => {
-    console.log(
-      "This is category name: " + cat.name + " This is category URL: " + cat.url
-    );
+    // console.log(
+    //   "This is category name: " + cat.name + " This is category URL: " + cat.url
+    // );
     const categoryLink = document.createElement("li");
     categoryLink.classList.add("linkStyle");
     categoryLink.textContent = cat.name + "\n";
@@ -70,6 +70,8 @@ async function getInformationFromCat(urlAddress) {
               console.log(categoryData);
               clearContent(txtContent); // Clear old content
 
+              // Create header h2 for name of unit/equipment/spell and a paragraph for description
+              // Check with if statements if other posibillities are available to display
               const desc = document.createElement("p");
               const descHeading = document.createElement("h2");
               if (categoryData.image) {
@@ -87,6 +89,20 @@ async function getInformationFromCat(urlAddress) {
               desc.textContent = categoryData.desc; // add description to textcontent
               txtContent.append(descHeading, desc);
               txtContent.appendChild(document.createElement("br"));
+              // Run a for loop to loop through each property the property has
+              for (let prop in categoryData) {
+                const value = categoryData[prop];
+                if (typeof value === "object") {
+                  console.log("This is a object");
+                  continue;
+                }
+                const propData = document.createElement("strong");
+                propData.classList.add("linkStyle");
+                propData.id = prop;
+                propData.textContent =
+                  prop.toUpperCase() + " : " + categoryData[prop];
+                txtContent.append(propData);
+              }
             } catch (error) {
               console.log(`Failed to fetch ${cat.url}:`, error);
             }
