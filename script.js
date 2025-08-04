@@ -105,37 +105,30 @@ async function getInformationFromCat(urlAddress) {
                   typeof value === "object" &&
                   Array.isArray(value) !== true
                 ) {
-                  console.log("This is a object, not an array", value);
+                  //console.log("This is a object, not an array", value);
                   let currentTitle = "";
                   for (let prop2 in value) {
-                    console.log(
-                      "prop1 length:",
-                      prop,
-                      "prop2: ",
-                      prop2,
-                      "value[prop2]: ",
-                      value[prop2]
-                    );
+                    // console.log(
+                    //   "prop1 length:",
+                    //   prop,
+                    //   "prop2: ",
+                    //   prop2,
+                    //   "value[prop2]: ",
+                    //   value[prop2]
+                    // );
                     if (prop !== currentTitle) {
                       currentTitle = prop;
                       propData.textContent = currentTitle.toUpperCase();
                     }
-                    console.log("Here should there be many prop2");
                     propData.textContent += " : " + prop2 + ":" + value[prop2];
                   }
                   sectionBtn.append(propData);
-                  //continue;
                 } else if (Array.isArray(value)) {
-                  //if property is array
-                  console.log("This is an array", value);
-                  for (let arrayProp of value) {
-                    console.log("arrayProp :", arrayProp);
-                    propData.textContent =
-                      prop.toUpperCase() + " : " + arrayProp;
-                    sectionBtn.append(propData);
-                  }
+                  continue;
                 } else {
+                  //
                   //display data if property is not object and not an array
+                  //
                   propData.textContent =
                     prop.toUpperCase() + " : " + categoryData[prop];
                   sectionBtn.append(propData);
@@ -153,10 +146,10 @@ async function getInformationFromCat(urlAddress) {
   });
 }
 //console.log("This is categories: ", getCategories(apiEndpoint));
-console.log(
-  "This is getInformationFromCat: ",
-  getInformationFromCat(apiEndpoint)
-);
+// console.log(
+//   "This is getInformationFromCat: ",
+//   getInformationFromCat(apiEndpoint)
+// );
 // Function to clear elements
 function clearContent(element) {
   while (element.firstChild) {
