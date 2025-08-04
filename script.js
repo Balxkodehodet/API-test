@@ -146,10 +146,10 @@ async function getInformationFromCat(urlAddress) {
   });
 }
 //console.log("This is categories: ", getCategories(apiEndpoint));
-// console.log(
-//   "This is getInformationFromCat: ",
-//   getInformationFromCat(apiEndpoint)
-// );
+console.log(
+  "This is getInformationFromCat: ",
+  getInformationFromCat(apiEndpoint)
+);
 // Function to clear elements
 function clearContent(element) {
   while (element.firstChild) {
