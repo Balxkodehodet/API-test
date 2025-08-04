@@ -90,18 +90,52 @@ async function getInformationFromCat(urlAddress) {
               desc.textContent = categoryData.desc; // add description to textcontent
               sectionBtn.append(descHeading, desc);
               sectionBtn.appendChild(document.createElement("br"));
+              //
               // Run a for loop to loop through each property the property has
+              //
               for (let prop in categoryData) {
                 const value = categoryData[prop];
                 const propData = document.createElement("strong");
                 propData.classList.add("linkStyle");
                 propData.id = prop;
-                // Check if value is object (We will end the information if its an object)
-                if (typeof value === "object") {
-                  //console.log("This is a object");
-                  console.log("This is value: ", value);
+                //
+                // Check if value is object and not an array
+                //
+                if (
+                  typeof value === "object" &&
+                  Array.isArray(value) !== true
+                ) {
+                  console.log("This is a object, not an array", value);
+                  let currentTitle = "";
+                  for (let prop2 in value) {
+                    console.log(
+                      "prop1 length:",
+                      prop,
+                      "prop2: ",
+                      prop2,
+                      "value[prop2]: ",
+                      value[prop2]
+                    );
+                    if (prop !== currentTitle) {
+                      currentTitle = prop;
+                      propData.textContent = currentTitle.toUpperCase();
+                    }
+                    console.log("Here should there be many prop2");
+                    propData.textContent += " : " + prop2 + ":" + value[prop2];
+                  }
+                  sectionBtn.append(propData);
                   //continue;
+                } else if (Array.isArray(value)) {
+                  //if property is array
+                  console.log("This is an array", value);
+                  for (let arrayProp of value) {
+                    console.log("arrayProp :", arrayProp);
+                    propData.textContent =
+                      prop.toUpperCase() + " : " + arrayProp;
+                    sectionBtn.append(propData);
+                  }
                 } else {
+                  //display data if property is not object and not an array
                   propData.textContent =
                     prop.toUpperCase() + " : " + categoryData[prop];
                   sectionBtn.append(propData);
