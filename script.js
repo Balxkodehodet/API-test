@@ -75,9 +75,10 @@ async function getInformationFromCat(urlAddress) {
               const desc = document.createElement("p");
               const descHeading = document.createElement("h2");
               if (categoryData.image) {
+                // If image exists as a property
                 const unitImg = document.createElement("img");
                 unitImg.src = webPage + categoryData.image; // add source of image as webPage + the url of image
-                txtContent.append(unitImg);
+                sectionBtn.append(unitImg);
               } else {
                 console.log("No Image was found");
               }
@@ -87,8 +88,8 @@ async function getInformationFromCat(urlAddress) {
               descHeading.textContent =
                 categoryData.full_name || categoryData.index; // Add full name to heading
               desc.textContent = categoryData.desc; // add description to textcontent
-              txtContent.append(descHeading, desc);
-              txtContent.appendChild(document.createElement("br"));
+              sectionBtn.append(descHeading, desc);
+              sectionBtn.appendChild(document.createElement("br"));
               // Run a for loop to loop through each property the property has
               for (let prop in categoryData) {
                 const value = categoryData[prop];
@@ -98,11 +99,12 @@ async function getInformationFromCat(urlAddress) {
                 // Check if value is object (We will end the information if its an object)
                 if (typeof value === "object") {
                   //console.log("This is a object");
-                  continue;
+                  console.log("This is value: ", value);
+                  //continue;
                 } else {
                   propData.textContent =
                     prop.toUpperCase() + " : " + categoryData[prop];
-                  txtContent.append(propData);
+                  sectionBtn.append(propData);
                 }
               }
             } catch (error) {
