@@ -80,7 +80,6 @@ async function getInformationFromCat(urlAddress) {
               // Create header h2 for name of unit/equipment/spell and a paragraph for description
               // Check with if statements if other posibillities are available to display
               const desc = document.createElement("p");
-              const startEquiptmentTxt = document.createElement("p");
               const descHeading = document.createElement("h2");
               if (categoryData.image) {
                 // If image exists as a property
