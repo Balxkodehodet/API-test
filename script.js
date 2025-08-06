@@ -98,24 +98,16 @@ async function getInformationFromCat(urlAddress) {
                 const propData = document.createElement("strong");
                 propData.classList.add("linkStyle");
                 propData.id = prop;
-                //
-                // Check if value is object and not an array
-                //
+
+                // //
+                // // Check if value is object and not an array
+                // //
                 if (
                   typeof value === "object" &&
                   Array.isArray(value) !== true
                 ) {
-                  //console.log("This is a object, not an array", value);
                   let currentTitle = "";
                   for (let prop2 in value) {
-                    // console.log(
-                    //   "prop1 length:",
-                    //   prop,
-                    //   "prop2: ",
-                    //   prop2,
-                    //   "value[prop2]: ",
-                    //   value[prop2]
-                    // );
                     if (prop !== currentTitle) {
                       currentTitle = prop;
                       propData.textContent = currentTitle.toUpperCase();
@@ -123,12 +115,37 @@ async function getInformationFromCat(urlAddress) {
                     propData.textContent += " : " + prop2 + ":" + value[prop2];
                   }
                   sectionBtn.append(propData);
-                } else if (Array.isArray(value)) {
-                  continue;
-                } else {
-                  //
-                  //display data if property is not object and not an array
-                  //
+                }
+                //Else if it is an array:
+                //
+                else if (Array.isArray(value)) {
+                  for (let prop2 of value) {
+                    //const arrayInfo = document.createElement("p");
+                    //arrayInfo.classList.add("linkStyle");
+                    if (prop2.type && prop2.value) {
+                      propData.textContent =
+                        prop.toUpperCase() +
+                        ".  type: " +
+                        prop2.type +
+                        ".  value: " +
+                        prop2.value;
+                    }
+                    if (prop2.name && prop2.desc) {
+                      propData.textContent =
+                        prop.toUpperCase() +
+                        ". " +
+                        prop2.name +
+                        ". Description: " +
+                        prop2.desc;
+                    }
+                    sectionBtn.append(propData);
+                    console.log("prop1: ", prop, "prop2: ", prop2);
+                  }
+                }
+                //continue;
+
+                //display data if property is not object and not an array
+                else {
                   propData.textContent =
                     prop.toUpperCase() + " : " + categoryData[prop];
                   sectionBtn.append(propData);
@@ -155,4 +172,60 @@ function clearContent(element) {
   while (element.firstChild) {
     element.removeChild(element.firstChild);
   }
+}
+//Function to dive deeper into the API
+function exploreData(data, depth = 0) {
+  const indent = "  ".repeat(depth);
+  let maxDepth = depth;
+
+  if (Array.isArray(data)) {
+    console.log(`${indent}📁 Array`);
+    data.forEach((item, index) => {
+      console.log(`${indent}  ↳ [${index}]`);
+
+      const container = document.createElement("div");
+      container.classList.add("linkStyle");
+      sectionBtn.append(container);
+      if (item.name) {
+        container.textContent = item.name;
+        console.log("Item name:", item.name);
+      }
+      if (item.desc) {
+        container.textContent = item.desc;
+        console.log("Item description: ", item.desc);
+      }
+      if (item.url) {
+        container.textContent = item.url;
+        console.log("URL is :", item.url);
+      }
+      const childDepth = exploreData(item, depth + 1);
+      maxDepth = Math.max(maxDepth, childDepth);
+    });
+  } else if (typeof data === "object" && data !== null) {
+    console.log(`${indent}📂 Object`);
+    for (let key in data) {
+      console.log("Looping through an object:");
+      console.log(`${indent}  🔑 ${key}:`);
+
+      //Create a bunch of links
+      const createLink = document.createElement("a");
+      createLink.textContent = key;
+      createLink.classList.add("linkStyle");
+      sectionBtn.appendChild(createLink);
+      // Create eventlistener "Click" with async
+      createLink.addEventListener("click", async () => {
+        const getMoreInfo = await fetch(webPage + data.url);
+        const getResults = await getMoreInfo.json();
+        clearContent(sectionBtn);
+        exploreData(getResults);
+      });
+
+      const childDepth = exploreData(data[key], depth + 1);
+      maxDepth = Math.max(maxDepth, childDepth);
+    }
+  } else if (data !== undefined && data !== "") {
+    console.log(`${indent}📄 ${typeof data}: ${JSON.stringify(data)}`);
+  }
+
+  return maxDepth;
 }
