@@ -120,8 +120,6 @@ async function getInformationFromCat(urlAddress) {
                 //
                 else if (Array.isArray(value)) {
                   for (let prop2 of value) {
-                    //const arrayInfo = document.createElement("p");
-                    //arrayInfo.classList.add("linkStyle");
                     if (prop2.type && prop2.value) {
                       propData.textContent =
                         prop.toUpperCase() +
@@ -142,8 +140,6 @@ async function getInformationFromCat(urlAddress) {
                     console.log("prop1: ", prop, "prop2: ", prop2);
                   }
                 }
-                //continue;
-
                 //display data if property is not object and not an array
                 else {
                   propData.textContent =
@@ -173,7 +169,9 @@ function clearContent(element) {
     element.removeChild(element.firstChild);
   }
 }
+
 //Function to dive deeper into the API
+// Ended up NOT using this function as I came too far without it.
 function exploreData(data, depth = 0) {
   const indent = "  ".repeat(depth);
   let maxDepth = depth;
