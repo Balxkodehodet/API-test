@@ -237,7 +237,10 @@ async function getInformationFromCat(urlAddress) {
                     }
                     if (prop2.name && prop2.url) {
                       propData.textContent =
-                        prop.toUpperCase() + ": " + prop2.name;
+                        prop.toUpperCase() +
+                        ": " +
+                        prop2.name +
+                        " Click for more info";
                       propData.addEventListener("click", async () => {
                         const getDataFromNameAndURL = await getData(
                           webPage + prop2.url
