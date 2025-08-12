@@ -277,10 +277,8 @@ async function getInformationFromCat(urlAddress) {
   });
 }
 //console.log("This is categories: ", getCategories(apiEndpoint));
-console.log(
-  "This is getInformationFromCat: ",
-  getInformationFromCat(apiEndpoint)
-);
+
+getInformationFromCat(apiEndpoint);
 // Function to clear elements
 function clearContent(element) {
   while (element.firstChild) {
@@ -302,60 +300,126 @@ function goBack() {
   }
 }
 
-//Function to dive deeper into the API
-// Ended up NOT using this function as I came too far without it.
-function exploreData(data, depth = 0) {
-  const indent = "  ".repeat(depth);
-  let maxDepth = depth;
+// Code to make the user available to search for monsters.
+let monsterCardWrapper = document.createElement("div"); // The wrapper of the monster cards
+let searchMonsterInput = document.getElementById("searchmonsters");
+let searchMonsterSubmit = document.getElementById("searchmonsterssubmit");
+let searchMonstersForm = document.getElementById("search-monsters-form");
+// Get monsters submit button after searching for a monster
+searchMonstersForm.addEventListener("submit", getMonsters);
 
-  if (Array.isArray(data)) {
-    console.log(`${indent}📁 Array`);
-    data.forEach((item, index) => {
-      console.log(`${indent}  ↳ [${index}]`);
+// getMonsters function
+async function getMonsters(e) {
+  e.preventDefault();
+  let getMonsterAPI = apiEndpoint + "monsters/";
+  let getMonsterData = await getData(getMonsterAPI);
 
-      const container = document.createElement("div");
-      container.classList.add("linkStyle");
-      sectionBtn.append(container);
-      if (item.name) {
-        container.textContent = item.name;
-        console.log("Item name:", item.name);
-      }
-      if (item.desc) {
-        container.textContent = item.desc;
-        console.log("Item description: ", item.desc);
-      }
-      if (item.url) {
-        container.textContent = item.url;
-        console.log("URL is :", item.url);
-      }
-      const childDepth = exploreData(item, depth + 1);
-      maxDepth = Math.max(maxDepth, childDepth);
-    });
-  } else if (typeof data === "object" && data !== null) {
-    console.log(`${indent}📂 Object`);
-    for (let key in data) {
-      console.log("Looping through an object:");
-      console.log(`${indent}  🔑 ${key}:`);
-
-      //Create a bunch of links
-      const createLink = document.createElement("a");
-      createLink.textContent = key;
-      createLink.classList.add("linkStyle");
-      sectionBtn.appendChild(createLink);
-      // Create eventlistener "Click" with async
-      createLink.addEventListener("click", async () => {
-        const getMoreInfo = await fetch(webPage + data.url);
-        const getResults = await getMoreInfo.json();
+  console.log(getMonsterData.results);
+  console.log(getMonsterData.results.length);
+  console.log(getMonsterData.results[0].name);
+  clearContent(monsterCardWrapper);
+  // First render of an object inside the original dragon properties
+  let firstRender = 1;
+  // Loops through all monsters
+  for (let key = 0; key < getMonsterData.results.length; key++) {
+    // If monster name includes any of the search input typing the user has typed
+    if (
+      getMonsterData.results[key].name
+        .toLowerCase()
+        .includes(searchMonsterInput.value.toLowerCase())
+    ) {
+      // then get the data of the monsters that are in the search result and create
+      // a div to contain the image of the monster plus the title
+      let getMonsterSearchResults = await getData(
+        getMonsterAPI + getMonsterData.results[key].index
+      );
+      let monsterCard = document.createElement("div");
+      let monsterTitle = document.createElement("p");
+      let monsterPicture = document.createElement("img");
+      monsterTitle.textContent = getMonsterSearchResults.name;
+      monsterPicture.classList.add("monsterimgsearch");
+      monsterCard.classList.add("monster-card2");
+      monsterCardWrapper.classList.add("monster-card");
+      monsterPicture.src = webPage + getMonsterSearchResults.image;
+      monsterCard.append(monsterPicture, monsterTitle);
+      console.log(getMonsterSearchResults.image);
+      monsterCardWrapper.append(monsterCard);
+      // get the data from the monster the User clicks
+      monsterCard.addEventListener("click", async () => {
+        //Hide search form:
+        searchMonstersForm.classList.add("hidden");
+        clearContent(monsterCardWrapper);
         clearContent(sectionBtn);
-        exploreData(getResults);
+        let getMonsterURL = await getData(
+          webPage + getMonsterSearchResults.url
+        );
+
+        // Create image for monster once outside of for loop
+        let monsterImgOriginal = document.createElement("img");
+        monsterImgOriginal.classList.add("monsterimg");
+        monsterImgOriginal.src = webPage + getMonsterURL.image;
+        let propertyWrapper = document.createElement("div");
+        propertyWrapper.append(monsterImgOriginal);
+        for (key in getMonsterURL) {
+          console.log("getMonsterURL[key] : ", getMonsterURL[key]);
+          // if array is not true and it is an object only
+          if (
+            Array.isArray(getMonsterURL[key]) !== true &&
+            typeof getMonsterURL[key] === "object"
+          ) {
+            let propertyHeading = document.createElement("h2");
+            propertyHeading.classList.add("linkStyle");
+            propertyHeading.textContent = key;
+            propertyWrapper.append(propertyHeading);
+
+            for (secondkey in getMonsterURL[key]) {
+              let propertyDescription = document.createElement("p");
+              propertyDescription.textContent = `${secondkey} : ${getMonsterURL[key][secondkey]}`; // The value of a object inside the original object
+              propertyDescription.classList.add("linkStyle");
+              propertyWrapper.append(propertyDescription);
+            }
+            continue;
+          } // end of if statement checking if it is an object and not an array
+          // THEN If it is an array with objects:
+          if (Array.isArray(getMonsterURL[key]) && getMonsterURL[key].length) {
+            //Then it is guaranteed that the next nested object is an object not an array
+
+            let propertyHeading = document.createElement("h2");
+            propertyHeading.classList.add("linkStyle");
+            propertyHeading.textContent = key;
+            propertyWrapper.append(propertyHeading);
+
+            for (let i of getMonsterURL[key]) {
+              // Check again if is an object and not an array inside the array
+              if (i && typeof i === "object" && !Array.isArray(i)) {
+                for (let prop in i) {
+                  let propertyDescription = document.createElement("p");
+                  propertyDescription.textContent = `${prop} : ${i[prop]}`; // The value of a object inside the original object
+                  propertyDescription.classList.add("linkStyle");
+                  propertyWrapper.append(propertyDescription);
+                }
+              } else {
+                const p = document.createElement("p");
+                p.classList.add("linkStyle");
+                p.textContent = String(i);
+                propertyWrapper.append(p);
+              }
+            }
+            continue;
+          }
+
+          // Normal rendering
+          let propertyHeading = document.createElement("h2");
+          let propertyDescription = document.createElement("p");
+          propertyHeading.textContent = key;
+          propertyDescription.textContent = getMonsterURL[key];
+          propertyHeading.classList.add("linkStyle");
+          propertyDescription.classList.add("linkStyle");
+          propertyWrapper.append(propertyHeading, propertyDescription);
+        }
+        document.body.append(propertyWrapper);
       });
-
-      const childDepth = exploreData(data[key], depth + 1);
-      maxDepth = Math.max(maxDepth, childDepth);
     }
-  } else if (data !== undefined && data !== "") {
-    console.log(`${indent}📄 ${typeof data}: ${JSON.stringify(data)}`);
+    document.body.append(monsterCardWrapper);
   }
-
-  return maxDepth;
 }
