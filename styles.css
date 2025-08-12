@@ -43,10 +43,11 @@ body {
 header {
   display: flex;
   flex-direction: row;
-  height: 40%;
+  height: 10%;
   width: 80%;
 }
-img {
+.monsterimg {
   aspect-ratio: 1/1;
   max-width: 95%;
+  max-height: 40%;
 }

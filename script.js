@@ -85,6 +85,7 @@ async function getInformationFromCat(urlAddress) {
                 // If image exists as a property
                 const unitImg = document.createElement("img");
                 unitImg.src = webPage + categoryData.image; // add source of image as webPage + the url of image
+                unitImg.classList.add("monsterimg");
                 sectionBtn.append(unitImg);
               } else {
                 console.log("No Image was found");
