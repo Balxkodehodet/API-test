@@ -92,6 +92,7 @@ async function getInformationFromCat(urlAddress) {
                 const unitImg = document.createElement("img");
                 unitImg.src = webPage + categoryData.image; // add source of image as webPage + the url of image
                 unitImg.classList.add("monsterimg");
+                unitImg.alt = categoryData.name;
                 sectionBtn.append(unitImg);
               } else {
                 console.log("No Image was found");
