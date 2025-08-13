@@ -355,6 +355,7 @@ async function getMonsters(e) {
       let monsterPicture = document.createElement("img");
       monsterTitle.textContent = getMonsterSearchResults.name;
       monsterPicture.classList.add("monsterimgsearch");
+      monsterPicture.alt = getMonsterSearchResults.name;
       monsterCard.classList.add("monster-card2");
       monsterCardWrapper.classList.add("monster-card");
       monsterPicture.src = webPage + getMonsterSearchResults.image;
@@ -374,6 +375,7 @@ async function getMonsters(e) {
         // Create image for monster once outside of for loop
         let monsterImgOriginal = document.createElement("img");
         monsterImgOriginal.classList.add("monsterimg");
+        monsterImgOriginal.alt = getMonsterURL.name;
         monsterImgOriginal.src = webPage + getMonsterURL.image;
         let propertyWrapper = document.createElement("div");
         propertyWrapper.append(monsterImgOriginal);
