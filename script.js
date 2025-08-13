@@ -4,6 +4,12 @@ const backBtn = document.getElementById("backBtn");
 const webPage = "https://www.dnd5eapi.co";
 const apiEndpoint = "https://www.dnd5eapi.co/api/2014/";
 const navigationHistory = []; // Stores states as user navigates
+let monsterCardWrapper = document.createElement("div"); // The wrapper of the monster cards
+let searchMonsterInput = document.getElementById("searchmonsters");
+let searchMonsterSubmit = document.getElementById("searchmonsterssubmit");
+let searchMonstersForm = document.getElementById("search-monsters-form");
+// prepend the search monster input form
+sectionBtn.prepend(searchMonstersForm);
 
 backBtn.textContent = "Back";
 backBtn.addEventListener("click", goBack);
@@ -300,13 +306,25 @@ function goBack() {
   }
 }
 
+//Set the initial text to send because its not working without it
+searchMonsterSubmit.value = "Send";
+let monsterContainer = document.getElementById("monster-container");
 // Code to make the user available to search for monsters.
-let monsterCardWrapper = document.createElement("div"); // The wrapper of the monster cards
-let searchMonsterInput = document.getElementById("searchmonsters");
-let searchMonsterSubmit = document.getElementById("searchmonsterssubmit");
-let searchMonstersForm = document.getElementById("search-monsters-form");
 // Get monsters submit button after searching for a monster
-searchMonstersForm.addEventListener("submit", getMonsters);
+searchMonstersForm.addEventListener("submit", (e) => {
+  searchMonsterSubmit.value =
+    searchMonsterSubmit.value === "Send"
+      ? (searchMonsterSubmit.value = "Reset")
+      : (searchMonsterSubmit.value = "Send");
+  // Check the opposite value because it gets put to send if it was reset when the button was pushed etc..
+  if (searchMonsterSubmit.value === "Send") {
+    clearContent(monsterContainer);
+  }
+  // Else if the button has been set to reset , indicating it was send: get monsters
+  else if (searchMonsterSubmit.value === "Reset") {
+    getMonsters(e);
+  }
+});
 
 // getMonsters function
 async function getMonsters(e) {
@@ -318,8 +336,6 @@ async function getMonsters(e) {
   console.log(getMonsterData.results.length);
   console.log(getMonsterData.results[0].name);
   clearContent(monsterCardWrapper);
-  // First render of an object inside the original dragon properties
-  let firstRender = 1;
   // Loops through all monsters
   for (let key = 0; key < getMonsterData.results.length; key++) {
     // If monster name includes any of the search input typing the user has typed
@@ -420,6 +436,6 @@ async function getMonsters(e) {
         document.body.append(propertyWrapper);
       });
     }
-    document.body.append(monsterCardWrapper);
+    monsterContainer.append(monsterCardWrapper);
   }
 }
