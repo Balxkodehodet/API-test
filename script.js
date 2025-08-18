@@ -379,6 +379,7 @@ async function getMonsters(e) {
         monsterImgOriginal.src = webPage + getMonsterURL.image;
         let propertyWrapper = document.createElement("div");
         propertyWrapper.append(monsterImgOriginal);
+        propertyWrapper.classList.add("buttons");
         for (key in getMonsterURL) {
           console.log("getMonsterURL[key] : ", getMonsterURL[key]);
           // if array is not true and it is an object only
