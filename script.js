@@ -53,10 +53,8 @@ async function getCategories(address) {
 // Function to extract information about the category after you have clicked one of the categories
 async function getInformationFromCat(urlAddress) {
   const getInfoFromCat = await getCategories(urlAddress);
+  // for each loop through the array of categories
   getInfoFromCat.forEach((cat) => {
-    // console.log(
-    //   "This is category name: " + cat.name + " This is category URL: " + cat.url
-    // );
     const categoryLink = document.createElement("li");
     categoryLink.classList.add("linkStyle");
     categoryLink.textContent = cat.name + "\n";
