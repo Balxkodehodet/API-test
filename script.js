@@ -61,6 +61,7 @@ async function getInformationFromCat(urlAddress) {
     categoryLink.classList.add("linkStyle");
     categoryLink.textContent = cat.name + "\n";
     txtContent.append(categoryLink);
+    // First button click on the first homepage
     categoryLink.addEventListener("click", async () => {
       try {
         const categoryRes = await fetch(cat.url); // Use value from original data
@@ -75,16 +76,13 @@ async function getInformationFromCat(urlAddress) {
           entryLink.textContent = entry.name || entry.index;
           txtContent.appendChild(entryLink);
           txtContent.appendChild(document.createElement("br"));
-          //
-          // Another eventlistener deeper into the hierarchy:
-          //
+          // The second click after the first click on the homepage
           entryLink.addEventListener("click", async () => {
             try {
               const categoryRes = await fetch(webPage + entry.url); // Use url value from collected entry data
               const categoryData = await categoryRes.json();
               navigationHistory.push(categoryData); // Save state
-              console.log("du klikket på: ", webPage + entry.url);
-              console.log("dette er categoryData : ", categoryData);
+              searchMonstersForm.classList.add("hidden"); // Hide search form
               clearContent(txtContent); // Clear old content
 
               // Create header h2 for name of unit/equipment/spell and a paragraph for description

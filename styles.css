@@ -94,3 +94,9 @@ header {
 .hidden {
   display: none;
 }
+footer {
+  width: 100%;
+  position: fixed;
+  background-color: rgb(200, 97, 7);
+  bottom: 0%;
+}
