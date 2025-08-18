@@ -99,4 +99,5 @@ footer {
   position: fixed;
   background-color: rgb(200, 97, 7);
   bottom: 0%;
+  opacity: 0.7;
 }

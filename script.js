@@ -27,7 +27,7 @@ async function getData(url) {
     }
     const data = await result.json();
     console.log(data);
-    navigationHistory.push(data); // Save state
+    navigationHistory.push(url); // Save state
     updateBackBtnState();
     return data;
   } catch (error) {
@@ -66,7 +66,7 @@ async function getInformationFromCat(urlAddress) {
       try {
         const categoryRes = await fetch(cat.url); // Use value from original data
         const categoryData = await categoryRes.json();
-        navigationHistory.push(categoryData); // Save state
+        navigationHistory.push(cat.url); // Save state
         clearContent(txtContent); // Clear old content
 
         categoryData.results.forEach((entry) => {
