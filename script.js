@@ -15,8 +15,8 @@ let searchMonstersForm = document.getElementById("search-monsters-form");
 // prepend the search monster input form
 sectionBtn.prepend(searchMonstersForm);
 
-backBtn.textContent = "Back";
-backBtn.addEventListener("click", goBack);
+// backBtn.textContent = "Back";
+// backBtn.addEventListener("click", goBack);
 // Retrieves and handles api data
 async function getData(url) {
   try {
@@ -27,8 +27,8 @@ async function getData(url) {
     }
     const data = await result.json();
     console.log(data);
-    navigationHistory.push(url); // Save state
-    updateBackBtnState();
+    // navigationHistory.push(url); // Save state
+    // updateBackBtnState();
     return data;
   } catch (error) {
     console.log("failed to fetch, error", error);
@@ -293,22 +293,22 @@ function clearContent(element) {
     element.removeChild(element.firstChild);
   }
 }
-function updateBackBtnState() {
-  backBtn.disabled = navigationHistory.length <= 1;
-}
-function goBack() {
-  // Remove the current (latest) state
-  navigationHistory.pop();
+// function updateBackBtnState() {
+//   backBtn.disabled = navigationHistory.length <= 1;
+// }
+// function goBack() {
+//   // Remove the current (latest) state
+//   navigationHistory.pop();
 
-  const previousState = navigationHistory[navigationHistory.length - 1];
-  if (previousState) {
-    getData(previousState); // Load previous content
-    getInformationFromCat(previousState); // Load previous category information
-    updateBackBtnState(); // Update the back button state
-  } else {
-    console.log("Already at root level. No further steps back.");
-  }
-}
+//   const previousState = navigationHistory[navigationHistory.length - 1];
+//   if (previousState) {
+//     getData(previousState); // Load previous content
+//     getInformationFromCat(previousState); // Load previous category information
+//     updateBackBtnState(); // Update the back button state
+//   } else {
+//     console.log("Already at root level. No further steps back.");
+//   }
+// }
 
 //Set the initial text to send because its not working without it
 searchMonsterSubmit.value = "Send";
