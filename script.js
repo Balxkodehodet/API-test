@@ -1,3 +1,7 @@
+// Notation: This script fetches data from the D&D 5e API, displays categories, and allows users to search for monsters.
+// Note to future work with API's - Using recursive functions is a good way to handle nested data structures.
+// Could probably shorten the code by using a recursive function to handle the nested data structures.
+// It includes functionality for searching monsters, displaying detailed information, and navigating through the data.
 const txtContent = document.getElementById("txt-content");
 const sectionBtn = document.getElementById("buttons");
 const backBtn = document.getElementById("backBtn");
