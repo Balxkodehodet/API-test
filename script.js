@@ -81,7 +81,7 @@ async function getInformationFromCat(urlAddress) {
             try {
               const categoryRes = await fetch(webPage + entry.url); // Use url value from collected entry data
               const categoryData = await categoryRes.json();
-              navigationHistory.push(categoryData); // Save state
+              navigationHistory.push(webPage + entry.url); // Save state
               searchMonstersForm.classList.add("hidden"); // Hide search form
               clearContent(txtContent); // Clear old content
 
@@ -285,7 +285,6 @@ async function getInformationFromCat(urlAddress) {
     });
   });
 }
-//console.log("This is categories: ", getCategories(apiEndpoint));
 
 getInformationFromCat(apiEndpoint);
 // Function to clear elements
@@ -304,6 +303,8 @@ function goBack() {
   const previousState = navigationHistory[navigationHistory.length - 1];
   if (previousState) {
     getData(previousState); // Load previous content
+    getInformationFromCat(previousState); // Load previous category information
+    updateBackBtnState(); // Update the back button state
   } else {
     console.log("Already at root level. No further steps back.");
   }
