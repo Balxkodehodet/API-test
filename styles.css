@@ -25,6 +25,12 @@ body {
   background-color: rgb(200, 97, 7);
   color: rgb(240, 238, 238);
 }
+.linkStyle:hover {
+  transform: scale(1.1);
+  transition: transform 0.2s ease-in-out;
+  background-color: rgb(242, 149, 68);
+  color: rgb(9, 9, 9);
+}
 .buttons {
   display: flex;
   justify-content: center;
