@@ -24,6 +24,7 @@ body {
   margin-right: 5px;
   background-color: rgb(200, 97, 7);
   color: rgb(240, 238, 238);
+  cursor: pointer;
 }
 .linkStyle:hover {
   transform: scale(1.1);
